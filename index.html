@@ -613,6 +613,33 @@
 .admin-panel {
     display: none; /* Ocultamos completamente el panel por defecto */
 }
+
+/* Estilo para las imágenes con marca de agua */
+.product-image-container {
+    position: relative;
+    display: inline-block;
+    width: 100%;     /* Asegura que el contenedor ocupe todo el ancho */
+}
+
+.product-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    border: 1px solid #f0f0f0;
+    cursor: pointer;
+}
+
+.watermark {
+    position: absolute;
+    top: 10px;       /* Cambiado de bottom a top */
+    right: 10px;
+    opacity: 0.7;
+    width: 25%;
+    max-width: 80px;
+    pointer-events: none;
+    filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.3)); /* Opcional: sombra para mejor visibilidad */
+}
     </style>
 </head>
 <body>
@@ -1275,7 +1302,10 @@
             newProductElement.innerHTML = `
                 ${newProduct.soldOut ? '<span class="sold-out-badge">AGOTADO</span>' : ''}
                 <span class="sales-badge">${escapeHtml(newProduct.badge)}</span>
-                <img src="${escapeHtml(newProduct.image)}" alt="${escapeHtml(newProduct.name)}" onclick="orderProduct('${escapeHtml(newProduct.name)}', '${escapeHtml(newProduct.price)}')">
+                <div class="product-image-container">
+    <img class="product-image" src="${escapeHtml(newProduct.image)}" alt="${escapeHtml(newProduct.name)}" onclick="orderProduct('${escapeHtml(newProduct.name)}', '${escapeHtml(newProduct.price)}')">
+    <img class="watermark" src="logo.jpg" alt="Forever Beauty">
+</div>
                 <div class="product-name">${escapeHtml(newProduct.name)}</div>
                 <span class="product-category" style="${getCategoryStyle(newProduct.category)}">${getCategoryName(newProduct.category)}</span>
                 <div class="product-price"><span class="price-symbol">S/.</span>${escapeHtml(newProduct.price)} <span class="old-price">S/. ${escapeHtml(newProduct.oldPrice)}</span></div>
@@ -1338,7 +1368,10 @@
         productElement.innerHTML = `
             ${product.soldOut ? '<span class="sold-out-badge">AGOTADO</span>' : ''}
             <span class="sales-badge">${escapeHtml(product.badge)}</span>
-            <img src="${escapeHtml(product.image)}" alt="${escapeHtml(product.name)}" onclick="orderProduct('${escapeHtml(product.name.replace(/\n/g, ' '))}', '${escapeHtml(product.price)}')">
+            <div class="product-image-container">
+    <img class="product-image" src="${escapeHtml(product.image)}" alt="${escapeHtml(product.name)}" onclick="orderProduct('${escapeHtml(product.name.replace(/\n/g, ' '))}', '${escapeHtml(product.price)}')">
+    <img class="watermark" src="logo.jpg" alt="Forever Beauty">
+</div>
             <div class="product-name">${escapeHtml(product.name).replace(/\n/g, '<br>')}</div>
             <span class="product-category" style="${getCategoryStyle(product.category)}">${getCategoryName(product.category)}</span>
             <div class="product-price"><span class="price-symbol">S/.</span>${escapeHtml(product.price)} <span class="old-price">S/. ${escapeHtml(product.oldPrice)}</span></div>
@@ -1480,7 +1513,10 @@
         productElement.innerHTML = `
             ${product.soldOut ? '<span class="sold-out-badge">AGOTADO</span>' : ''}
             <span class="sales-badge">${escapeHtml(product.badge)}</span>
-            <img src="${escapeHtml(product.image)}" alt="${escapeHtml(product.name)}" onclick="orderProduct('${escapeHtml(product.name.replace(/\n/g, ' '))}', '${escapeHtml(product.price)}')">
+           <div class="product-image-container">
+    <img class="product-image" src="${escapeHtml(product.image)}" alt="${escapeHtml(product.name)}" onclick="orderProduct('${escapeHtml(product.name.replace(/\n/g, ' '))}', '${escapeHtml(product.price)}')">
+    <img class="watermark" src="logo.jpg" alt="Forever Beauty">
+</div>
             <div class="product-name">${escapeHtml(product.name).replace(/\n/g, '<br>')}</div>
             <span class="product-category" style="${getCategoryStyle(product.category)}">${getCategoryName(product.category)}</span>
             <div class="product-price"><span class="price-symbol">S/.</span>${escapeHtml(product.price)} <span class="old-price">S/. ${escapeHtml(product.oldPrice)}</span></div>
