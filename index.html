@@ -610,9 +610,7 @@
     opacity: 0;
 }
 
-.admin-panel {
-    display: none; /* Ocultamos completamente el panel por defecto */
-}
+
 
 /* Estilo para las imágenes con marca de agua */
 .product-image-container {
@@ -640,6 +638,32 @@
     pointer-events: none;
     filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.3)); /* Opcional: sombra para mejor visibilidad */
 }
+
+  /* Estilo para el número de producto */
+        .product-number {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: #d23369;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            z-index: 1;
+        }
+        
+        /* Estilo para productos ocultos en el panel de admin */
+        .product-item.hidden-product {
+            opacity: 0.6;
+            background: #f9f9f9;
+            border-left: 3px solid #f44336;
+        }
+
     </style>
 </head>
 <body>
@@ -681,24 +705,18 @@
                     <button class="admin-save-btn" onclick="saveGeneralSettings()">Guardar Configuración</button>
                 </div>
                 
-                <div class="admin-section">
-                    <h4>Administrar Productos</h4>
-                    <div class="product-controls" id="productControls">
-                        <!-- Los productos se cargarán aquí dinámicamente -->
-                    </div>
-                    <button class="add-product-btn" onclick="addNewProduct()">+ Agregar Nuevo Producto</button>
-                </div>
-                
-                <div class="admin-section">
-                    <h4>Administrar Categorías</h4>
-                    <div class="admin-form-group">
-                        <label>Categorías Actuales:</label>
-                        <div class="custom-categories" id="customCategories">
-                            <!-- Las categorías se cargarán aquí dinámicamente -->
-                        </div>
-                        <button class="add-category-btn" onclick="addNewCategory()">+ Agregar Categoría</button>
-                    </div>
-                </div>
+                 <div class="admin-section">
+        <h4>Administrar Productos</h4>
+        <div style="margin-bottom: 10px;">
+            <button class="filter-btn" onclick="filterAdminProducts('all')">Todos</button>
+            <button class="filter-btn" onclick="filterAdminProducts('visible')">Visibles</button>
+            <button class="filter-btn" onclick="filterAdminProducts('hidden')">Ocultos</button>
+        </div>
+        <div class="product-controls" id="productControls">
+            <!-- Los productos se cargarán aquí dinámicamente -->
+        </div>
+        <button class="add-product-btn" onclick="addNewProduct()">+ Agregar Nuevo Producto</button>
+    </div>
                 
                 <div class="admin-section">
                     <h4>Configuración de WhatsApp</h4>
@@ -800,17 +818,18 @@
     </div>
 
     <script>
-        // Datos de productos (almacenados en localStorage)
+       // Datos de productos (modificado para incluir visibilidad)
         let productsData = JSON.parse(localStorage.getItem('foreverBeautyProducts')) || [
             {
                 id: 1,
-                 "name": "Suero de Ácido Hialurónico\ncrema\njabon",
-      "category": "skincare",
-      "image": "producto1.jpg",
-      "price": "79.90",
-      "oldPrice": "120.00",
-      "badge": "🔥 128 vendidos",
-      "soldOut": false
+                "name": "Suero de Ácido Hialurónico\ncrema\njabon",
+                "category": "skincare",
+                "image": "producto1.jpg",
+                "price": "79.90",
+                "oldPrice": "120.00",
+                "badge": "🔥 128 vendidos",
+                "soldOut": false,
+                "visible": true
             },
             {
                 id: 2,
@@ -1141,7 +1160,7 @@
         };
 
         // Contraseña simple para el panel de administración
-        const ADMIN_PASSWORD = "admin123";
+        const ADMIN_PASSWORD = "";
 
         // Función para escapar HTML
         function escapeHtml(unsafe) {
@@ -1200,18 +1219,36 @@
             return "";
         }
 
-        // Función para cargar productos en el panel de administración
-        function loadProductsForAdmin() {
+         // Función para cargar productos en el panel de administración (modificada)
+        function loadProductsForAdmin(filter = 'all') {
             const productControls = document.getElementById("productControls");
             productControls.innerHTML = "";
             
-            productsData.forEach(product => {
+            let filteredProducts = productsData;
+            
+            if (filter === 'visible') {
+                filteredProducts = productsData.filter(p => p.visible);
+            } else if (filter === 'hidden') {
+                filteredProducts = productsData.filter(p => !p.visible);
+            }
+            
+            filteredProducts.forEach(product => {
                 const productItem = document.createElement("div");
-                productItem.className = "product-item";
+                productItem.className = `product-item ${product.visible ? '' : 'hidden-product'}`;
                 productItem.innerHTML = `
                     <div class="admin-form-group">
+                        <label>
+                            <input type="checkbox" ${product.visible ? "checked" : ""} data-field="visible" data-id="${product.id}">
+                            Producto Visible
+                        </label>
+                    </div>
+                    <div class="admin-form-group">
+                        <label>Número de Producto:</label>
+                        <input type="text" value="${product.id}" disabled>
+                    </div>
+                    <div class="admin-form-group">
                         <label>Nombre del Producto:</label>
-                         <textarea data-field="name" data-id="${product.id}" rows="2">${escapeHtml(product.name)}</textarea>
+                        <textarea data-field="name" data-id="${product.id}" rows="2">${escapeHtml(product.name)}</textarea>
                     </div>
                     <div class="admin-form-group">
                         <label>Categoría:</label>
@@ -1248,6 +1285,15 @@
                 productControls.appendChild(productItem);
             });
         }
+
+ // Función para filtrar productos en el panel de administración
+        function filterAdminProducts(filterType) {
+            loadProductsForAdmin(filterType);
+        }
+
+
+
+
 
         // Función para cargar categorías personalizadas en el panel de administración
         function loadCustomCategories() {
@@ -1337,15 +1383,21 @@
             alert("Configuración de WhatsApp guardada correctamente.");
         }
 
-        // Función para actualizar los productos cuando se modifican en el panel
-      
-            function updateProductInGrid(productId) {
-    const product = productsData.find(p => p.id === productId);
-    if (!product) return;
-    
-    const productElement = document.querySelector(`.product[data-id="${productId}"]`);
-    if (!productElement) return;
-    
+      // Función para actualizar productos en el grid (modificada)
+        function updateProductInGrid(productId) {
+            const product = productsData.find(p => p.id === productId);
+            if (!product) return;
+            
+            const productElement = document.querySelector(`.product[data-id="${productId}"]`);
+            if (!productElement) return;
+            
+            // Actualizar visibilidad
+            if (product.visible) {
+                productElement.classList.remove('hidden');
+            } else {
+                productElement.classList.add('hidden');
+            }
+
     // Actualizar todos los campos del producto
     productElement.setAttribute("data-category", product.category);
     productElement.querySelector(".product-name").innerHTML = escapeHtml(product.name).replace(/\n/g, '<br>');
@@ -1406,7 +1458,7 @@
             }
         }
 
-        // Función para agregar un nuevo producto
+       // Función para agregar nuevo producto (modificada)
         function addNewProduct() {
             const newId = productsData.length > 0 ? Math.max(...productsData.map(p => p.id)) + 1 : 1;
             
@@ -1418,7 +1470,8 @@
                 price: "99.90",
                 oldPrice: "149.00",
                 badge: "🆕 Nuevo",
-                soldOut: false
+                soldOut: false,
+                visible: true
             };
             
             productsData.push(newProduct);
@@ -1486,37 +1539,41 @@
             }
         }
 
-        // Función para recargar los productos con las nuevas categorías
+       // Función para recargar productos (modificada para mostrar solo visibles)
         function reloadProductsWithNewCategories() {
-             const productGrid = document.getElementById("productGrid");
-    productGrid.innerHTML = "";
-    
-    productsData.forEach(product => {
-        const productElement = document.createElement("div");
-        productElement.className = "product";
-        productElement.setAttribute("data-category", product.category);
-        productElement.setAttribute("data-id", product.id);
-        productElement.innerHTML = `
-            ${product.soldOut ? '<span class="sold-out-badge">AGOTADO</span>' : ''}
-            <span class="sales-badge">${escapeHtml(product.badge)}</span>
-            <div class="product-image-container">
-    <img class="product-image" src="${escapeHtml(product.image)}" alt="${escapeHtml(product.name)}" onclick="orderProduct('${escapeHtml(product.name.replace(/\n/g, ' '))}', '${escapeHtml(product.price)}')">
-    <img class="watermark" src="logo.jpg" alt="Forever Beauty">
-</div>
-            <div class="product-name">${escapeHtml(product.name).replace(/\n/g, '<br>')}</div>
-            <span class="product-category" style="${getCategoryStyle(product.category)}">${getCategoryName(product.category)}</span>
-            <div class="product-price"><span class="price-symbol">S/.</span>${escapeHtml(product.price)} <span class="old-price">S/. ${escapeHtml(product.oldPrice)}</span></div>
+            const productGrid = document.getElementById("productGrid");
+            productGrid.innerHTML = "";
             
-            <div class="product-buttons">
-                <button class="quick-order" onclick="orderProduct('${escapeHtml(product.name.replace(/\n/g, ' '))}', '${escapeHtml(product.price)}')">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
-                    Pedir por WhatsApp
-                </button>
-            </div>
-        `;
-        productGrid.appendChild(productElement);
-    });
-}
+            // Filtrar solo productos visibles
+            const visibleProducts = productsData.filter(product => product.visible);
+            
+            visibleProducts.forEach(product => {
+                const productElement = document.createElement("div");
+                productElement.className = "product";
+                productElement.setAttribute("data-category", product.category);
+                productElement.setAttribute("data-id", product.id);
+                productElement.innerHTML = `
+                    <div class="product-number">${product.id}</div>
+                    ${product.soldOut ? '<span class="sold-out-badge">AGOTADO</span>' : ''}
+                    <span class="sales-badge">${escapeHtml(product.badge)}</span>
+                    <div class="product-image-container">
+                        <img class="product-image" src="${escapeHtml(product.image)}" alt="${escapeHtml(product.name)}" onclick="orderProduct('${escapeHtml(product.name.replace(/\n/g, ' '))}', '${escapeHtml(product.price)}')">
+                        <img class="watermark" src="logo.jpg" alt="Forever Beauty">
+                    </div>
+                    <div class="product-name">${escapeHtml(product.name).replace(/\n/g, '<br>')}</div>
+                    <span class="product-category" style="${getCategoryStyle(product.category)}">${getCategoryName(product.category)}</span>
+                    <div class="product-price"><span class="price-symbol">S/.</span>${escapeHtml(product.price)} <span class="old-price">S/. ${escapeHtml(product.oldPrice)}</span></div>
+                    
+                    <div class="product-buttons">
+                        <button class="quick-order" onclick="orderProduct('${escapeHtml(product.name.replace(/\n/g, ' '))}', '${escapeHtml(product.price)}')">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+                            Pedir por WhatsApp
+                        </button>
+                    </div>
+                `;
+                productGrid.appendChild(productElement);
+            });
+        }
 
         // Función para enviar mensaje de WhatsApp con el producto seleccionado
         function orderProduct(productName, price) {
@@ -1631,37 +1688,43 @@
             });
         }
 
-        // Cargar los productos al iniciar la página
+       // Función para cargar productos iniciales (modificada)
+        // Función para cargar productos iniciales (modificada para mostrar solo visibles)
         function loadInitialProducts() {
             const productGrid = document.getElementById("productGrid");
-    productGrid.innerHTML = "";
-    
-    productsData.forEach(product => {
-        const productElement = document.createElement("div");
-        productElement.className = "product";
-        productElement.setAttribute("data-category", product.category);
-        productElement.setAttribute("data-id", product.id);
-        productElement.innerHTML = `
-            ${product.soldOut ? '<span class="sold-out-badge">AGOTADO</span>' : ''}
-            <span class="sales-badge">${escapeHtml(product.badge)}</span>
-           <div class="product-image-container">
-    <img class="product-image" src="${escapeHtml(product.image)}" alt="${escapeHtml(product.name)}" onclick="orderProduct('${escapeHtml(product.name.replace(/\n/g, ' '))}', '${escapeHtml(product.price)}')">
-    <img class="watermark" src="logo.jpg" alt="Forever Beauty">
-</div>
-            <div class="product-name">${escapeHtml(product.name).replace(/\n/g, '<br>')}</div>
-            <span class="product-category" style="${getCategoryStyle(product.category)}">${getCategoryName(product.category)}</span>
-            <div class="product-price"><span class="price-symbol">S/.</span>${escapeHtml(product.price)} <span class="old-price">S/. ${escapeHtml(product.oldPrice)}</span></div>
+            productGrid.innerHTML = "";
             
-            <div class="product-buttons">
-                <button class="quick-order" onclick="orderProduct('${escapeHtml(product.name.replace(/\n/g, ' '))}', '${escapeHtml(product.price)}')">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
-                    Pedir por WhatsApp
-                </button>
-            </div>
-        `;
-        productGrid.appendChild(productElement);
-    });
-}
+            // Filtrar solo productos visibles
+            const visibleProducts = productsData.filter(product => product.visible);
+            
+            visibleProducts.forEach(product => {
+                const productElement = document.createElement("div");
+                productElement.className = "product";
+                productElement.setAttribute("data-category", product.category);
+                productElement.setAttribute("data-id", product.id);
+                productElement.innerHTML = `
+                    <div class="product-number">${product.id}</div>
+                    ${product.soldOut ? '<span class="sold-out-badge">AGOTADO</span>' : ''}
+                    <span class="sales-badge">${escapeHtml(product.badge)}</span>
+                    <div class="product-image-container">
+                        <img class="product-image" src="${escapeHtml(product.image)}" alt="${escapeHtml(product.name)}" onclick="orderProduct('${escapeHtml(product.name.replace(/\n/g, ' '))}', '${escapeHtml(product.price)}')">
+                        <img class="watermark" src="logo.jpg" alt="Forever Beauty">
+                    </div>
+                    <div class="product-name">${escapeHtml(product.name).replace(/\n/g, '<br>')}</div>
+                    <span class="product-category" style="${getCategoryStyle(product.category)}">${getCategoryName(product.category)}</span>
+                    <div class="product-price"><span class="price-symbol">S/.</span>${escapeHtml(product.price)} <span class="old-price">S/. ${escapeHtml(product.oldPrice)}</span></div>
+                    
+                    <div class="product-buttons">
+                        <button class="quick-order" onclick="orderProduct('${escapeHtml(product.name.replace(/\n/g, ' '))}', '${escapeHtml(product.price)}')">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+                            Pedir por WhatsApp
+                        </button>
+                    </div>
+                `;
+                productGrid.appendChild(productElement);
+            });
+        }
+
 
         // Escuchar cambios en los campos de producto
         document.addEventListener('input', function(e) {
