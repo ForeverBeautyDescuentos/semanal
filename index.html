@@ -470,12 +470,17 @@
 
     <!-- Filtros por categoría -->
     <div class="filters" id="categoryFilters">
-        <button class="filter-btn active" data-filter="all">Todos</button>
-        <button class="filter-btn" data-filter="skincare">Cuidado Facial</button>
-        <button class="filter-btn" data-filter="makeup">Maquillaje</button>
-        <button class="filter-btn" data-filter="perfume">Perfumes</button>
-        <button class="filter-btn" data-filter="hair">Cuidado Capilar</button>
-    </div>
+    <button class="filter-btn active" data-filter="all">Todos</button>
+    <button class="filter-btn" data-filter="skincare">Cuidado Facial</button>
+    <button class="filter-btn" data-filter="makeup">Maquillaje</button>
+    <button class="filter-btn" data-filter="perfume-femenino">Perfume Femenino</button>
+    <button class="filter-btn" data-filter="hair">Cuidado Capilar</button>
+    <button class="filter-btn" data-filter="corporal">Corporal</button>
+    <button class="filter-btn" data-filter="bebe-ninos">Bebé y Niños</button>
+    <button class="filter-btn" data-filter="desodorantes">Desodorantes</button>
+    <button class="filter-btn" data-filter="Otros">Otros</button>
+    <button class="filter-btn" data-filter="perfume-masculino">Perfume Masculino</button>
+</div>
     
     <div class="product-grid" id="productGrid">
         <!-- Los productos se cargarán aquí dinámicamente -->
@@ -494,390 +499,570 @@
     <script>
         // Datos de productos fijos (sin acceso a localStorage)
         const productsData = [
-            {
-                id: 1,
-                name: "Suero de Ácido Hialurónico\ncrema\njabon",
-                category: "skincare",
-                image: "producto1.jpg",
-                price: "79.90",
-                oldPrice: "120.00",
-                badge: "🔥 128 vendidos",
-                soldOut: false,
-                pricePer: "1 unidad",
-                visible: true
-            },
-            {
-                id: 2,
-                name: "Crema Antiarrugas Noche",
-                category: "skincare",
-                image: "producto2.jpg",
-                price: "89.90",
-                oldPrice: "135.00",
-                badge: "✨ Más vendido",
-                soldOut: false,
-                pricePer: "1 unidad",
-                visible: true
-            },
-            {
-                id: 3,
-                name: "Kit Completo de Maquillaje",
-                category: "makeup",
-                image: "producto3.jpg",
-                price: "149.90",
-                oldPrice: "220.00",
-                badge: "🆕 Nuevo lanzamiento",
-                soldOut: false,
-                pricePer: "1 unidad",
-                visible: true
-            },
-            {
-                id: 4,
-                name: "Paleta de Sombras Profesional",
-                category: "makeup",
-                image: "producto4.jpg",
-                price: "99.90",
-                oldPrice: "149.00",
-                badge: "💖 30% OFF",
-                soldOut: false,
-                pricePer: "1 unidad",
-                visible: true
-            },
-            {
-                id: 5,
-                name: "Perfume Floral Eau de Parfum",
-                category: "perfume",
-                image: "producto5.jpg",
-                price: "129.90",
-                oldPrice: "189.00",
-                badge: "🌸 Nuevo aroma",
-                soldOut: false,
-                pricePer: "1 unidad",
-                visible: true
-            },
-            {
-                id: 6,
-                name: "Shampoo Reconstrucción Capilar",
-                category: "hair",
-                image: "producto6.jpg",
-                price: "69.90",
-                oldPrice: "99.00",
-                badge: "💇‍♀️ Recomendado",
-                soldOut: false,
-                pricePer: "1 unidad",
-                visible: true
-            },
-            {
-                id: 7,
-                name: "Shampoo Reconstrucción Capilar",
-                category: "hair",
-                image: "producto7.jpg",
-                price: "69.90",
-                oldPrice: "99.00",
-                badge: "💇‍♀️ Recomendado",
-                soldOut: false,
-                pricePer: "1 unidad",
-                visible: true
-            },
-            {
-                id: 8,
-                name: "Shampoo Reconstrucción Capilar",
-                category: "hair",
-                image: "producto8.jpg",
-                price: "69.90",
-                oldPrice: "99.00",
-                badge: "💇‍♀️ Recomendado",
-                soldOut: false,
-                pricePer: "1 unidad",
-                visible: true
-            },
-            {
-                id: 9,
-                name: "Shampoo Reconstrucción Capilar",
-                category: "hair",
-                image: "producto9.jpg",
-                price: "69.90",
-                oldPrice: "99.00",
-                badge: "💇‍♀️ Recomendado",
-                soldOut: false,
-                pricePer: "1 unidad",
-                visible: true
-            },
-            {
-                id: 10,
-                name: "Shampoo Reconstrucción Capilar",
-                category: "hair",
-                image: "producto10.jpg",
-                price: "69.90",
-                oldPrice: "99.00",
-                badge: "💇‍♀️ Recomendado",
-                soldOut: false,
-                pricePer: "1 unidad",
-                visible: true
-            },
-            {
-                id: 11,
-                name: "Shampoo Reconstrucción Capilar",
-                category: "hair",
-                image: "producto11.jpg",
-                price: "69.90",
-                oldPrice: "99.00",
-                badge: "💇‍♀️ Recomendado",
-                soldOut: false,
-                pricePer: "1 unidad",
-                visible: true
-            },
-            {
-                id: 12,
-                name: "Shampoo Reconstrucción Capilar",
-                category: "hair",
-                image: "producto12.jpg",
-                price: "69.90",
-                oldPrice: "99.00",
-                badge: "💇‍♀️ Recomendado",
-                soldOut: false,
-                pricePer: "1 unidad",
-                visible: true
-            },
-            {
-                id: 13,
-                name: "Shampoo Reconstrucción Capilar",
-                category: "hair",
-                image: "producto13.jpg",
-                price: "69.90",
-                oldPrice: "99.00",
-                badge: "💇‍♀️ Recomendado",
-                soldOut: false,
-                pricePer: "1 unidad",
-                visible: true
-            },
-            {
-                id: 14,
-                name: "Shampoo Reconstrucción Capilar",
-                category: "hair",
-                image: "producto14.jpg",
-                price: "69.90",
-                oldPrice: "99.00",
-                badge: "💇‍♀️ Recomendado",
-                soldOut: false,
-                pricePer: "1 unidad",
-                visible: true
-            },
-            {
-                id: 15,
-                name: "Shampoo Reconstrucción Capilar",
-                category: "hair",
-                image: "producto15.jpg",
-                price: "69.90",
-                oldPrice: "99.00",
-                badge: "💇‍♀️ Recomendado",
-                soldOut: false,
-                pricePer: "1 unidad",
-                visible: true
-            },
-            {
-                id: 16,
-                name: "Shampoo Reconstrucción Capilar",
-                category: "hair",
-                image: "producto16.jpg",
-                price: "69.90",
-                oldPrice: "99.00",
-                badge: "💇‍♀️ Recomendado",
-                soldOut: false,
-                pricePer: "1 unidad",
-                visible: true
-            },
-            {
-                id: 17,
-                name: "Shampoo Reconstrucción Capilar",
-                category: "hair",
-                image: "producto17.jpg",
-                price: "69.90",
-                oldPrice: "99.00",
-                badge: "💇‍♀️ Recomendado",
-                soldOut: false,
-                pricePer: "1 unidad",
-                visible: true
-            },
-            {
-                id: 18,
-                name: "Shampoo Reconstrucción Capilar",
-                category: "hair",
-                image: "producto18.jpg",
-                price: "69.90",
-                oldPrice: "99.00",
-                badge: "💇‍♀️ Recomendado",
-                soldOut: false,
-                pricePer: "1 unidad",
-                visible: true
-            },
-            {
-                id: 19,
-                name: "Shampoo Reconstrucción Capilar",
-                category: "hair",
-                image: "producto19.jpg",
-                price: "69.90",
-                oldPrice: "99.00",
-                badge: "💇‍♀️ Recomendado",
-                soldOut: false,
-                pricePer: "1 unidad",
-                visible: true
-            },
-            {
-                id: 20,
-                name: "Shampoo Reconstrucción Capilar",
-                category: "hair",
-                image: "producto20.jpg",
-                price: "69.90",
-                oldPrice: "99.00",
-                badge: "💇‍♀️ Recomendado",
-                soldOut: false,
-                pricePer: "1 unidad",
-                visible: true
-            },
-            {
-                id: 21,
-                name: "Shampoo Reconstrucción Capilar",
-                category: "hair",
-                image: "producto21.jpg",
-                price: "69.90",
-                oldPrice: "99.00",
-                badge: "💇‍♀️ Recomendado",
-                soldOut: false,
-                pricePer: "1 unidad",
-                visible: true
-            },
-            {
-                id: 22,
-                name: "Shampoo Reconstrucción Capilar",
-                category: "hair",
-                image: "producto22.jpg",
-                price: "69.90",
-                oldPrice: "99.00",
-                badge: "💇‍♀️ Recomendado",
-                soldOut: false,
-                pricePer: "1 unidad",
-                visible: true
-            },
-            {
-                id: 23,
-                name: "Shampoo Reconstrucción Capilar",
-                category: "hair",
-                image: "producto23.jpg",
-                price: "69.90",
-                oldPrice: "99.00",
-                badge: "💇‍♀️ Recomendado",
-                soldOut: false,
-                pricePer: "1 unidad",
-                visible: true
-            },
-            {
-                id: 24,
-                name: "Shampoo Reconstrucción Capilar",
-                category: "hair",
-                image: "producto24.jpg",
-                price: "69.90",
-                oldPrice: "99.00",
-                badge: "💇‍♀️ Recomendado",
-                soldOut: false,
-                pricePer: "1 unidad",
-                visible: true
-            },
-            {
-                id: 25,
-                name: "Shampoo Reconstrucción Capilar",
-                category: "hair",
-                image: "producto25.jpg",
-                price: "69.90",
-                oldPrice: "99.00",
-                badge: "💇‍♀️ Recomendado",
-                soldOut: false,
-                pricePer: "1 unidad",
-                visible: true
-            },
-            {
-                id: 26,
-                name: "Shampoo Reconstrucción Capilar",
-                category: "hair",
-                image: "producto26.jpg",
-                price: "69.90",
-                oldPrice: "99.00",
-                badge: "💇‍♀️ Recomendado",
-                soldOut: false,
-                pricePer: "1 unidad",
-                visible: true
-            },
-            {
-                id: 27,
-                name: "Shampoo Reconstrucción Capilar",
-                category: "hair",
-                image: "producto27.jpg",
-                price: "69.90",
-                oldPrice: "99.00",
-                badge: "💇‍♀️ Recomendado",
-                soldOut: false,
-                pricePer: "1 unidad",
-                visible: true
-            },
-            {
-                id: 28,
-                name: "Shampoo Reconstrucción Capilar",
-                category: "hair",
-                image: "producto28.jpg",
-                price: "69.90",
-                oldPrice: "99.00",
-                badge: "💇‍♀️ Recomendado",
-                soldOut: false,
-                pricePer: "1 unidad",
-                visible: true
-            },
-            {
-                id: 29,
-                name: "Shampoo Reconstrucción Capilar",
-                category: "hair",
-                image: "producto29.jpg",
-                price: "69.90",
-                oldPrice: "99.00",
-                badge: "💇‍♀️ Recomendado",
-                soldOut: false,
-                pricePer: "1 unidad",
-                visible: true
-            },
-            {
-                id: 30,
-                name: "Shampoo Reconstrucción Capilar",
-                category: "hair",
-                image: "producto30.jpg",
-                price: "69.90",
-                oldPrice: "99.00",
-                badge: "💇‍♀️ Recomendado",
-                soldOut: false,
-                pricePer: "1 unidad",
-                visible: true
-            },
-            {
-                id: 31,
-                name: "Shampoo Reconstrucción Capilar",
-                category: "hair",
-                image: "producto31.jpg",
-                price: "69.90",
-                oldPrice: "99.00",
-                badge: "💇‍♀️ Recomendado",
-                soldOut: false,
-                pricePer: "1 unidad",
-                visible: true
-            },
-            {
-                id: 32,
-                name: "Shampoo Reconstrucción Capilar",
-                category: "hair",
-                image: "producto32.jpg",
-                price: "69.90",
-                oldPrice: "99.00",
-                badge: "💇‍♀️ Recomendado",
-                soldOut: false,
-                pricePer: "1 unidad",
-                visible: true
-            }
+             {
+      "id": 1,
+      "name": "Repuesto Lumina Shampoo Matizador Rubios",
+      "category": "hair",
+      "image": "producto1.jpg",
+      "price": "36.00",
+      "oldPrice": "60.00",
+      "badge": "🔥 Recomendados",
+      "soldOut": false,
+      "pricePer": "x 2 unidades",
+      "visible": true
+    },
+    {
+      "id": 2,
+      "name": "Kaiak Clásico Dama 100ml",
+      "category": "perfume-femenino",
+      "image": "producto2.jpg",
+      "price": "55.00",
+      "oldPrice": "129.00",
+      "badge": "✨ Más vendido",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 3,
+      "name": "Loción de Seda Iluminadora 200ml",
+      "category": "corporal",
+      "image": "producto3.jpg",
+      "price": "24.00",
+      "oldPrice": "68.00",
+      "badge": "🆕 Nuevo lanzamiento",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 4,
+      "name": "Especificar",
+      "category": "makeup",
+      "image": "producto4.jpg",
+      "price": "99.90",
+      "oldPrice": "149.00",
+      "badge": "💖 30% OFF",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 5,
+      "name": "Pulpa de Manos Ekos 75gr",
+      "category": "corporal",
+      "image": "producto5.jpg",
+      "price": "19.00",
+      "oldPrice": "45.00",
+      "badge": "🌸 Nuevo aroma",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 6,
+      "name": "Ohm Clásico",
+      "category": "perfume-masculino",
+      "image": "producto6.jpg",
+      "price": "65.00",
+      "oldPrice": "126.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 7,
+      "name": "Perfume Essencial Dama 50ml\n*Essencial Exclusivo\n*Essencial Oud Pimienta",
+      "category": "perfume-femenino",
+      "image": "producto7.jpg",
+      "price": "79.00",
+      "oldPrice": "99.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 8,
+      "name": "Humor Propio 75ml\nHumor Meu Primeiro 75ml",
+      "category": "perfume-femenino",
+      "image": "producto8.jpg",
+      "price": "55.00",
+      "oldPrice": "127.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 9,
+      "name": "Frescor Ekos Pitanga 150ml\nFrescor Ekos Cacau 150ml",
+      "category": "perfume-femenino",
+      "image": "producto9.jpg",
+      "price": "48.00",
+      "oldPrice": "97.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 10,
+      "name": "Beijo de Humor Dama 75ml",
+      "category": "perfume-femenino",
+      "image": "producto10.jpg",
+      "price": "59.00",
+      "oldPrice": "127.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 11,
+      "name": "especificar",
+      "category": "hair",
+      "image": "producto11.jpg",
+      "price": "69.90",
+      "oldPrice": "99.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 12,
+      "name": "Jabón Barra Tododia x5 unid",
+      "category": "corporal",
+      "image": "producto12.jpg",
+      "price": "24.00",
+      "oldPrice": "42.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 13,
+      "name": "Pack Tododia Frutas Rojas\nCrema Corporal 200ml , Colonia Body Splash 200ml",
+      "category": "corporal",
+      "image": "producto13.jpg",
+      "price": "45.00",
+      "oldPrice": "97.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 14,
+      "name": "especificar",
+      "category": "hair",
+      "image": "producto14.jpg",
+      "price": "69.90",
+      "oldPrice": "99.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 15,
+      "name": "Pack Dama Natura",
+      "category": "corporal",
+      "image": "producto15.jpg",
+      "price": "45.00",
+      "oldPrice": "115.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 16,
+      "name": "especificar",
+      "category": "hair",
+      "image": "producto16.jpg",
+      "price": "69.90",
+      "oldPrice": "99.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 17,
+      "name": "Repuesto Crema Corporal Tododia 400ml\n*Hojas Limón Guanábana\n*Lavanda y Te de Manzanilla",
+      "category": "corporal",
+      "image": "producto17.jpg",
+      "price": "45.00",
+      "oldPrice": "90",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "2 unidades",
+      "visible": true
+    },
+    {
+      "id": 18,
+      "name": "Perfume Essencial Caballero 100ml\n*Essencial Oud\n*Essencial Exclusivo",
+      "category": "perfume-masculino",
+      "image": "producto18.jpg",
+      "price": "95.00",
+      "oldPrice": "215.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 19,
+      "name": "Desodorantes Roll-On 70ml",
+      "category": "desodorantes",
+      "image": "producto19.jpg",
+      "price": "45.00",
+      "oldPrice": "90.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "x 3 unidades",
+      "visible": true
+    },
+    {
+      "id": 20,
+      "name": "Limpiador Gel Facial 120ml\n*Acción Antimanchas Pigment Control\n*Hidratante Aqua Fix Ácido Hialurónico\n*Elixir de Vida con Resveratrol",
+      "category": "skincare",
+      "image": "producto20.jpg",
+      "price": "27.00",
+      "oldPrice": "69.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 21,
+      "name": "Crema Corporal Tododia 400ml",
+      "category": "corporal",
+      "image": "producto21.jpg",
+      "price": "29.00",
+      "oldPrice": "52.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 22,
+      "name": "Jabón Barra Ekos Refrescantes",
+      "category": "corporal",
+      "image": "producto22.jpg",
+      "price": "30.00",
+      "oldPrice": "50.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 23,
+      "name": "especificar",
+      "category": "hair",
+      "image": "producto23.jpg",
+      "price": "69.90",
+      "oldPrice": "99.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 24,
+      "name": "Exfoliante Facial Antigrasa 100gr\nMascarilla Detox Facial Antigrasa 100gr",
+      "category": "skincare",
+      "image": "producto24.jpg",
+      "price": "27.00",
+      "oldPrice": "71.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 25,
+      "name": "Jabón Líquido Corporal Tododia 300ml",
+      "category": "corporal",
+      "image": "producto25.jpg",
+      "price": "23.00",
+      "oldPrice": "36.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 26,
+      "name": "especificar",
+      "category": "hair",
+      "image": "producto26.jpg",
+      "price": "69.90",
+      "oldPrice": "99.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 27,
+      "name": "especificar",
+      "category": "hair",
+      "image": "producto27.jpg",
+      "price": "69.90",
+      "oldPrice": "99.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 28,
+      "name": "Jabón Masajeador Ekos Maracuyá 90gr",
+      "category": "corporal",
+      "image": "producto28.jpg",
+      "price": "30.00",
+      "oldPrice": "72.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "4 unidades",
+      "visible": true
+    },
+    {
+      "id": 29,
+      "name": "Talco de Pies Multicare 500gr",
+      "category": "corporal",
+      "image": "producto29.jpg",
+      "price": "25.00",
+      "oldPrice": "72.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 30,
+      "name": "Repuesto Pulpa Corporal Ekos Maracuyá 400ml",
+      "category": "hair",
+      "image": "producto30.jpg",
+      "price": "30.00",
+      "oldPrice": "56.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 31,
+      "name": "Shampoo Agu Manzanilla 1 Litro",
+      "category": "hair",
+      "image": "producto31.jpg",
+      "price": "29.00",
+      "oldPrice": "76.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 32,
+      "name": "Protector Térmico Lumina 150ml",
+      "category": "hair",
+      "image": "producto32.jpg",
+      "price": "28.00",
+      "oldPrice": "53.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 33,
+      "name": "especificar",
+      "category": "hair",
+      "image": "producto33.jpg",
+      "price": "69.90",
+      "oldPrice": "99.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 34,
+      "name": "especificar",
+      "category": "hair",
+      "image": "producto34.jpg",
+      "price": "69.90",
+      "oldPrice": "99.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 35,
+      "name": "especificar",
+      "category": "hair",
+      "image": "producto35.jpg",
+      "price": "69.90",
+      "oldPrice": "99.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 36,
+      "name": "especificar",
+      "category": "hair",
+      "image": "producto36.jpg",
+      "price": "69.90",
+      "oldPrice": "99.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 37,
+      "name": "especificar",
+      "category": "hair",
+      "image": "producto37.jpg",
+      "price": "69.90",
+      "oldPrice": "99.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 38,
+      "name": "especificar",
+      "category": "hair",
+      "image": "producto38.jpg",
+      "price": "69.90",
+      "oldPrice": "99.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 39,
+      "name": "especificar",
+      "category": "hair",
+      "image": "producto39.jpg",
+      "price": "69.90",
+      "oldPrice": "99.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 40,
+      "name": "especificar",
+      "category": "hair",
+      "image": "producto40.jpg",
+      "price": "69.90",
+      "oldPrice": "99.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 41,
+      "name": "especificar",
+      "category": "hair",
+      "image": "producto41.jpg",
+      "price": "69.90",
+      "oldPrice": "99.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 42,
+      "name": "especificar",
+      "category": "hair",
+      "image": "producto42.jpg",
+      "price": "69.90",
+      "oldPrice": "99.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 43,
+      "name": "especificar",
+      "category": "hair",
+      "image": "producto43.jpg",
+      "price": "69.90",
+      "oldPrice": "99.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 44,
+      "name": "especificar",
+      "category": "hair",
+      "image": "producto44.jpg",
+      "price": "69.90",
+      "oldPrice": "99.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 45,
+      "name": "especificar",
+      "category": "hair",
+      "image": "producto45.jpg",
+      "price": "69.90",
+      "oldPrice": "99.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 46,
+      "name": "especificar",
+      "category": "hair",
+      "image": "producto46.jpg",
+      "price": "69.90",
+      "oldPrice": "99.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    },
+    {
+      "id": 47,
+      "name": "especificar",
+      "category": "hair",
+      "image": "producto47.jpg",
+      "price": "69.90",
+      "oldPrice": "99.00",
+      "badge": "💇‍♀️ Recomendado",
+      "soldOut": false,
+      "pricePer": "1 unidad",
+      "visible": true
+    }
         ];
 
         // Configuración general fija (sin acceso a localStorage)
@@ -888,12 +1073,17 @@
             whatsappNumber: "51957196122",
             whatsappMessage: "¡Hola Forever Beauty! Estoy interesad@ en el producto:\n\n*{producto}*\nPrecio: S/.{precio} ({unidades})\n\n¿Podrías darme más información? ¿Tienen envíos a mi distrito?",
             customCategories: [
-                {id: "skincare", name: "Cuidado Facial", color: "#1565c0", bgColor: "#e3f2fd", borderColor: "#bbdefb"},
-                {id: "makeup", name: "Maquillaje", color: "#7b1fa2", bgColor: "#f3e5f5", borderColor: "#e1bee7"},
-                {id: "perfume", name: "Perfume", color: "#2e7d32", bgColor: "#e8f5e9", borderColor: "#c8e6c9"},
-                {id: "hair", name: "Cuidado Capilar", color: "#ff8f00", bgColor: "#fff8e1", borderColor: "#ffecb3"}
-            ]
-        };
+        {id: "skincare", name: "Cuidado Facial", color: "#1565c0", bgColor: "#e3f2fd", borderColor: "#bbdefb"},
+        {id: "makeup", name: "Maquillaje", color: "#7b1fa2", bgColor: "#f3e5f5", borderColor: "#e1bee7"},
+        {id: "perfume-femenino", name: "Perfume Femenino", color: "#d23369", bgColor: "#fce4ec", borderColor: "#f8bbd0"},
+        {id: "hair", name: "Cuidado Capilar", color: "#ff8f00", bgColor: "#fff8e1", borderColor: "#ffecb3"},
+        {id: "corporal", name: "Corporal", color: "#5d4037", bgColor: "#efebe9", borderColor: "#d7ccc8"},
+        {id: "bebe-ninos", name: "Bebé y Niños", color: "#0288d1", bgColor: "#e1f5fe", borderColor: "#b3e5fc"},
+        {id: "desodorantes", name: "Desodorantes", color: "#7b1fa2", bgColor: "#f3e5f5", borderColor: "#e1bee7"},
+	{id: "Otros", name: "Otros", color: "#6d4c41", bgColor: "#efebe9", borderColor: "#d7ccc8"},
+        {id: "perfume-masculino", name: "Perfume Masculino", color: "#2e7d32", bgColor: "#e8f5e9", borderColor: "#c8e6c9"}
+    ]
+};
 
         // Función para escapar HTML
         function escapeHtml(unsafe) {
